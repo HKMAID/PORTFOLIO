@@ -484,6 +484,7 @@ footer {
 @media (max-width: 768px) {
   header { padding: 1.2rem; }
   .biblio {
+    flex-direction: column; 
     text-align: center;
     padding-top: 8rem;
     justify-content: center;
