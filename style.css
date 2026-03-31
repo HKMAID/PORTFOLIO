@@ -121,6 +121,21 @@ nav {
     width: 100%;
 }
 
+.nav-link.active {
+    color: var(--accent-gold);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+header.scrolled {
+    background: rgba(2, 26, 17, 0.95);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    padding: 1rem 2rem;
+    transition: all 0.35s ease;
+}
+
 main {
     max-width: 1200px;
     margin: 0 auto;
@@ -302,7 +317,7 @@ section {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
     margin-top: 3rem;
 }
