@@ -32,19 +32,41 @@ const revealerOptions = {
 // Navbar dyn
 const sections = document.querySelectorAll("main section[id]");
 const navLinks = document.querySelectorAll("nav .nav-link");
+const visibilityBySection = new Map();
+
+const setActiveNavLink = (sectionId) => {
+  navLinks.forEach((link) => link.classList.remove("active"));
+  if (!sectionId) return;
+
+  const activeLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+  if (activeLink) activeLink.classList.add("active");
+};
+
+sections.forEach((section) => {
+  visibilityBySection.set(section.id, 0);
+});
 
 const activeObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      navLinks.forEach((link) => link.classList.remove("active"));
-      const activeLink = document.querySelector(
-        `nav a[href="#${entry.target.id}"]`
-      );
-      if (activeLink) activeLink.classList.add("active");
+      visibilityBySection.set(
+        entry.target.id,
+        entry.isIntersecting ? entry.intersectionRatio : 0);  
     });
+
+    let activeSectionId = null;
+    let highestRatio = 0;
+              
+    visibilityBySection.forEach((ratio, sectionId) => {
+      if (ratio > highestRatio) {
+        highestRatio = ratio;
+        activeSectionId = sectionId;
+      }
+    });
+              
+    setActiveNavLink(highestRatio > 0 ? activeSectionId : null);
   },
-  { threshold: 0.4,
+  { threshold: [0, 0.25, 0.4, 0.6, 0.8, 1],
     rootMargin: "-80px 0px 0px 0px" // la navbar fixe
   }
 );
